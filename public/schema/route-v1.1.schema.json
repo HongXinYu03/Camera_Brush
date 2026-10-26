@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:camera-brush:route:1.1",
+  "title": "Camera Brush image_route_only input 1.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "image_id",
+    "route_revision_id",
+    "coordinate_frame",
+    "strokes",
+    "input_policy",
+    "width_profile_included",
+    "active_geometry"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.1" },
+    "task_id": { "type": "string" },
+    "image_id": { "type": "string" },
+    "route_revision_id": { "type": "string" },
+    "active_geometry": { "const": "current" },
+    "input_policy": { "const": "image_route_only" },
+    "width_profile_included": { "const": true },
+    "coordinate_frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origin", "x", "y", "width", "height"],
+      "properties": {
+        "origin": { "const": "top_left" },
+        "x": { "const": "right" },
+        "y": { "const": "down" },
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "strokes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "stroke_id",
+          "order",
+          "centerline",
+          "width_image_px",
+          "width_semantics",
+          "color",
+          "renderer",
+          "renderer_version"
+        ],
+        "properties": {
+          "stroke_id": { "type": "string" },
+          "order": { "type": "integer", "minimum": 0 },
+          "centerline": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["x", "y"],
+              "additionalProperties": false,
+              "properties": {
+                "x": { "type": "number", "minimum": 0 },
+                "y": { "type": "number", "minimum": 0 }
+              }
+            }
+          },
+          "width_image_px": {
+            "type": "array",
+            "items": { "type": "number", "exclusiveMinimum": 0 }
+          },
+          "width_semantics": { "enum": ["visual_only", "timing_control"] },
+          "color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+          "renderer": { "type": "string" },
+          "renderer_version": { "type": "string" }
+        }
+      }
+    }
+  }
+}
